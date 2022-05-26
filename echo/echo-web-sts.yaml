@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: echo-web
+spec:
+  replicas: 2
+  serviceName: echo-web
+  selector:
+    matchLabels:
+      app: echo-web
+  template:
+    metadata:
+      labels:
+        app: echo-web
+    spec:
+      containers:
+      - name: echo-web
+        image: cr-cn-beijing.volces.com/yanick-test/echo-web
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-web
+spec:
+  ports:
+  - name: http-echo
+    port: 80
+  clusterIP: None
+  selector:
+    app: echo-web
+
