@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openjdk11
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openjdk11
+  template:
+    metadata:
+      labels:
+        app: openjdk11
+    spec:
+      shareProcessNamespace: true
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+      containers:
+      - name: openjdk8
+        image: cr-cn-beijing.volces.com/tools/openjdk:8
+        securityContext:
+          capabilities:
+            add:
+            - SYS_PTRACE
+            - NET_ADMIN
+        # Just spin & wait forever
+        command: ["sh", "-c"]
+        args: [ "tail -f /dev/null" ]
+        volumeMounts:
+        - name: shared-data
+          mountPath: /tmp
+      - name: arthas
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities:
+            add:
+            - SYS_PTRACE
+            - SYS_ADMIN
+            - NET_ADMIN
+        image: cr-cn-beijing.volces.com/tools/arthas
+        volumeMounts:
+        - name: shared-data
+          mountPath: /tmp
+        # Just spin & wait forever
+        command: ["sh", "-c"]
+        args: [ "tail -f /dev/null" ]
