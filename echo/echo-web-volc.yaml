@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: echo-web
-        image: ams-cn-beijing.cr.volces.com/tools/echo-server
+        image: cr-cn-beijing.volces.com/tools/echo-server
         ports:
         - containerPort: 80
         resources:
