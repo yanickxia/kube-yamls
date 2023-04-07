@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: netshoot
-        image: cr-cn-beijing.volces.com/tools/netshoot:latest
+        image: ams-cn-beijing.cr.volces.com/tools/netshoot:latest
         imagePullPolicy: IfNotPresent
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
