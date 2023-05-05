@@ -18,6 +18,11 @@ spec:
       - name: netshoot
         image: ams-cn-beijing.cr.volces.com/tools/netshoot:latest
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsUser: 0
+          capabilities:
+            add: ["NET_ADMIN", "NET_RAW"]
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
         resources:
